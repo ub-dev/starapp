@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -24,7 +22,7 @@ public class Project {
 	}
 	public Project()
 	{
-		
+
 	}
 	public Project(long projectId, String projectName) {
 		super();

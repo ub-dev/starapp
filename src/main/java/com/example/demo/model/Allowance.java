@@ -1,47 +1,47 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name="allowance")
 public class Allowance {
-	
-	private String name;
+
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
+	public long getId() {
+		return id;
+	}
 	private long SAPId;
+	private String name;
 	private int projectHours;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	@Temporal(TemporalType.DATE)
+	private Date startDate;
+	@Temporal(TemporalType.DATE)
+	private Date endDate;
+	@ColumnDefault("0")
 	private int leaveHours;
 	private int afternoonShiftDays;
+	@ColumnDefault("0")
 	private int nightShiftDays;
 	private int TADays;
 	private double TA;
 	private double totalAllowance;
 	private String status;
 	private String projectName;
-	
-	/*
-	 * @ManyToMany
-	 * 
-	 * @JoinTable( name="allowance_project", joinColumns = @JoinColumn(name="SAPId",
-	 * referencedColumnName="SAPId"), inverseJoinColumns = @JoinColumn(name=
-	 * "project_id", referencedColumnName="id")
-	 * 
-	 * ) private List<Project> project=new ArrayList<>();
-	 */
-	
-	
+
+
+
 	public String getName() {
 		return name;
 	}
@@ -102,16 +102,16 @@ public class Allowance {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public LocalDate getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public LocalDate getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 	public String getProjectName() {
@@ -120,7 +120,7 @@ public class Allowance {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	public Allowance(String name, long sAPId, int projectHours, LocalDate startDate, LocalDate endDate, int leaveHours,
+	public Allowance(String name, long sAPId, int projectHours, Date startDate, Date endDate, int leaveHours,
 			int afternoonShiftDays, int nightShiftDays, int tADays, double tA, double totalAllowance, String status,
 			String projectName) {
 		super();
@@ -140,7 +140,7 @@ public class Allowance {
 	}
 	public Allowance()
 	{
-		
+
 	}
 
 }

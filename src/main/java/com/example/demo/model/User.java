@@ -4,12 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import java.util.Base64;
 
 @Entity
 @Table(name="users")
@@ -20,11 +16,10 @@ public class User {
 				+ ", activeFrom=" + activeFrom + "]";
 	}
 	@Id
-	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String username;
 	@Column(name="name")
 	private String name;
-	
+
 	private String password;
 	private String status;
 	private String role;
@@ -36,10 +31,10 @@ public class User {
 		this.activeFrom = activeFrom;
 	}
 	public String getPassword() {
-		return new String(Base64.getDecoder().decode(password));
+		return password;
 	}
 	public void setPassword(String password) {
-		this.password = new String(Base64.getEncoder().encode((password).getBytes()));
+		this.password = password;
 	}
 	public void setRole(String role) {
 		this.role = role;
@@ -61,7 +56,7 @@ public class User {
 	}
 	public User()
 	{
-		
+
 	}
 	public String getStatus() {
 		return status;

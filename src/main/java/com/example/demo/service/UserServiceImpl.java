@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +15,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	
+
 	@Override
 	public void saveUser(User user) {
 		System.out.println("saving in service");
@@ -45,7 +42,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUser(User newuser,String id) {
 		System.out.println("update in service");
-	Optional<User> optional=userRepository.findById(id);	
+	Optional<User> optional=userRepository.findById(id);
 	User user=null;
 	if(optional.isPresent())
 	{
@@ -55,28 +52,27 @@ public class UserServiceImpl implements UserService {
 		user.setStatus("Active");
 		userRepository.save(user);
 	}
-		
+
 	}
 
-		
+
 
 	@Override
-	public Page<User> getDefaultUsers(int offset, int pageSize) {
-		Page<User> list=userRepository.findAll(PageRequest.of(offset, pageSize));
+	public List<User> getDefaultUsers() {
+		List<User> list=userRepository.findAll();
         return list;
 	}
 
 	@Override
-	public Page<User> getSortedUsers(int offset, int pageSize, String field,String sortDirection) {
+	public List<User> getSortedUsers(String field,String sortDirection) {
 		Sort sort=sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(field).ascending():Sort.by(field).descending();
-		Pageable pageable=PageRequest.of(offset, pageSize,sort);
-		return this.userRepository.findAll(pageable);
-		
+		return this.userRepository.findAll(sort);
+
 	}
 
 	@Override
 	public void confirmUser(User newuser, String id) {
-		Optional<User> optional=userRepository.findById(id);	
+		Optional<User> optional=userRepository.findById(id);
 		User user=null;
 		if(optional.isPresent())
 		{
@@ -88,5 +84,5 @@ public class UserServiceImpl implements UserService {
 		}
 
 	}
-	
+
 }

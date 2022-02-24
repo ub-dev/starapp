@@ -28,7 +28,6 @@ public class HomeController {
 	@Autowired
 	MyUserDetailService myUserDetailService;
 
-	// returning logged in user
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	@ResponseBody
 	public User getUser(HttpServletRequest request) {

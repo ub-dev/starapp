@@ -2,24 +2,25 @@ package com.example.demo.service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import com.example.demo.model.User;
 
 
-public class MyUserDetails implements UserDetails { // represents our current 
-	
+public class MyUserDetails implements UserDetails { // represents our current
+
 	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
 	private String status;
 	private String role;
-	
-	
+
+
 	@Override
 	public String toString() {
 		return "MyUserDetails [userId=" + username + ", password=" + password + ", isActive=" + status + ", role="
@@ -27,7 +28,7 @@ public class MyUserDetails implements UserDetails { // represents our current
 	}
 
 	private User user;
-	
+
 	public User getUser() {
 		return user;
 	}
@@ -37,8 +38,7 @@ public class MyUserDetails implements UserDetails { // represents our current
 	}
 
 	private List<GrantedAuthority> authorities; // contains list of authorities granted for the current user of type Granted Authorities
-	
-	// this will construct the user details for every user data that is passed into it from the database
+
 	public MyUserDetails(User user) {
 		this.username = user.getUsername();
 		this.password = user.getPassword();
@@ -59,7 +59,7 @@ public class MyUserDetails implements UserDetails { // represents our current
 	}
 
 
-	
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -100,5 +100,5 @@ public class MyUserDetails implements UserDetails { // represents our current
 	public String getUsername() {
 		return username;
 	}
-		
+
 }

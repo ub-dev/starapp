@@ -21,7 +21,7 @@ public class MyUserDetailService implements UserDetailsService{
 	//when authentication takes place spring will call this service and return the user details using this method 
 	@Override
 	public MyUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<User> user = userRepository.findByUserName(username);
+		Optional<User> user = userRepository.findByUsername(username);
 		user.orElseThrow(()-> new UsernameNotFoundException("Username: "+username+" was not found!"));	
 		return user.map(MyUserDetails::new).get();
 	}
