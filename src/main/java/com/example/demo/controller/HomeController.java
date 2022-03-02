@@ -5,6 +5,7 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,10 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.demo.model.User;
 import com.example.demo.service.MyUserDetailService;
 
-//import com.star.login.models.User;
-
 @RestController
-
+@CrossOrigin
 public class HomeController {
 
 	@RequestMapping("/")
@@ -26,7 +25,7 @@ public class HomeController {
 	}
 
 	@Autowired
-	MyUserDetailService myUserDetailService;
+	private MyUserDetailService myUserDetailService;
 
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	@ResponseBody
@@ -38,10 +37,7 @@ public class HomeController {
 		}
 		ModelAndView obj = new ModelAndView("index");
 		obj.addObject("user", principal.getName());
-
 		obj.addObject("user", myUserDetailService.loadUserByUsername(username).getUser().getUsername());
-
-		System.out.println(myUserDetailService.loadUserByUsername(username).getUser());
 		return myUserDetailService.loadUserByUsername(username).getUser();
 	}
 

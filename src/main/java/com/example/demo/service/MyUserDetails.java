@@ -39,7 +39,7 @@ public class MyUserDetails implements UserDetails { // represents our current
 
 	private List<GrantedAuthority> authorities; // contains list of authorities granted for the current user of type Granted Authorities
 
-	public MyUserDetails(User user) {
+	 public MyUserDetails(User user) {
 		this.username = user.getUsername();
 		this.password = user.getPassword();
 		this.status=user.getStatus();

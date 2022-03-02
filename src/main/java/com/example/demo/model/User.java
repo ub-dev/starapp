@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
-import java.time.LocalDateTime;
-
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -19,15 +18,15 @@ public class User {
 	private String username;
 	@Column(name="name")
 	private String name;
-
+	
 	private String password;
 	private String status;
 	private String role;
-	private LocalDateTime activeFrom;
-	public LocalDateTime getActiveFrom() {
+	private LocalDate activeFrom;
+	public LocalDate getActiveFrom() {
 		return activeFrom;
 	}
-	public void setActiveFrom(LocalDateTime activeFrom) {
+	public void setActiveFrom(LocalDate activeFrom) {
 		this.activeFrom = activeFrom;
 	}
 	public String getPassword() {
@@ -61,7 +60,7 @@ public class User {
 	public String getStatus() {
 		return status;
 	}
-	public User( String id,String name, String password, String role, String status,LocalDateTime activeFrom) {
+	public User( String id,String name, String password, String role, String status,LocalDate activeFrom) {
 		super();
 		this.username=id;
 		this.name = name;

@@ -15,8 +15,8 @@ public interface AllowanceRepository extends JpaRepository<Allowance, Long> {
 	public ArrayList<Allowance> findAllByProjectName(String projectname);
 
 	@Query(value = "select distinct  project_name from allowance", nativeQuery = true)
-	public ArrayList<String> findDistinctByProjectName();
+	public ArrayList<String> findDistinctProjectName();
 
 	@Query(value = "select * from allowance where project_name=?1 and start_date=?2 and end_date=?3", nativeQuery = true)
-	public List<Allowance> getProjectNameAndPeriod(String projectName, Date startDate, Date endDate);
+	public List<Allowance> getProjectByNameAndPeriod(String projectName, Date startDate, Date endDate);
 }

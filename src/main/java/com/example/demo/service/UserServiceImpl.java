@@ -1,8 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
-import java.util.Optional;
-
+import com.example.demo.Exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-
 	@Override
 	public void saveUser(User user) {
 		System.out.println("saving in service");
@@ -24,14 +22,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserById(String id) {
-		Optional<User> optional=userRepository.findById(id);
-		User user=null;
-		if(optional.isPresent())
-		{
-			user=optional.get();
-		}
-		return user;
-		}
+		return userRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+
+	}
 
 	@Override
 	public void deleteUserById(String id) {
@@ -40,48 +34,40 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUser(User newuser,String id) {
-		System.out.println("update in service");
-	Optional<User> optional=userRepository.findById(id);
-	User user=null;
-	if(optional.isPresent())
-	{
-	   	user=optional.get();
-	   	user.setName(newuser.getName());
+	public void updateUser(User newuser, String id) {
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+
+		user.setName(newuser.getName());
 		user.setRole(newuser.getRole());
-		user.setStatus("Active");
+		user.setStatus(newuser.getStatus());
 		userRepository.save(user);
-	}
 
 	}
-
-
 
 	@Override
 	public List<User> getDefaultUsers() {
-		List<User> list=userRepository.findAll();
-        return list;
+		List<User> list = userRepository.findAll();
+		return list;
 	}
 
 	@Override
-	public List<User> getSortedUsers(String field,String sortDirection) {
-		Sort sort=sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(field).ascending():Sort.by(field).descending();
+	public List<User> getSortedUsers(String field, String sortDirection) {
+		Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(field).ascending()
+				: Sort.by(field).descending();
 		return this.userRepository.findAll(sort);
 
 	}
 
 	@Override
 	public void confirmUser(User newuser, String id) {
-		Optional<User> optional=userRepository.findById(id);
-		User user=null;
-		if(optional.isPresent())
-		{
-		   	user=optional.get();
-		   	user.setName(newuser.getName());
-			user.setRole(newuser.getRole());
-			user.setStatus("Inactive");
-			userRepository.save(user);
-		}
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+
+		user.setName(newuser.getName());
+		user.setRole(newuser.getRole());
+		user.setStatus("Active");
+		userRepository.save(user);
 
 	}
 
