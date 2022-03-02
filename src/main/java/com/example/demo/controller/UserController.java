@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 
 @RestController
@@ -24,6 +25,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private UserRepository userRepository;
 	// @Autowired
 	// private AllowanceService allowanceService;
 
@@ -49,13 +53,21 @@ public class UserController {
 	private PasswordEncoder passwordEncoder;
 
 	@PostMapping("/user")
-	public User saveUser(@RequestBody User user) {
-
+	public String saveUser(@RequestBody User user) {
+		if(userRepository.existsById(user.getUsername())) {
+			return "User Already Exists!";
+		}
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userService.saveUser(user);
-		return user;
+		return "New User created with username: "+user.getUsername();
 	}
-	
+	@GetMapping("/userexists/{username}")
+	public boolean checkUserExits(@PathVariable(value="username") String username) {
+		if(userRepository.existsByUsername(username))
+			return true;
+		else return false;
+		
+	}
 
 	@GetMapping("/users/{id}")
 	public User getUser(@PathVariable(value = "id") String id) {

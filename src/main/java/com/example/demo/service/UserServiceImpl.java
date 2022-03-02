@@ -14,10 +14,28 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	public boolean isSaved(boolean isSaved) {
+		return isSaved;
+	}
+	
 	@Override
 	public void saveUser(User user) {
+		boolean	alreadyExists=false;
 		System.out.println("saving in service");
-		this.userRepository.save(user);
+		try {
+		if(!userRepository.existsByUsername(user.getUsername())) {
+			alreadyExists=false;
+			this.userRepository.save(user);
+			System.out.println("User has been saved...!");
+		}
+		else alreadyExists=true;
+		}
+		catch (Exception e) {
+		System.out.println("User already exists!" +e.getMessage());
+		}
+		finally {
+			System.out.println("User Exists: "+alreadyExists);
+		}
 	}
 
 	@Override
@@ -68,7 +86,6 @@ public class UserServiceImpl implements UserService {
 		user.setRole(newuser.getRole());
 		user.setStatus("Active");
 		userRepository.save(user);
-
 	}
 
 }

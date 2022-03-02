@@ -10,6 +10,7 @@ import com.example.demo.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User,String>,CrudRepository<User, String>{
 	Optional<User> findByUsername(String username);
+	boolean existsByUsername(String username);
 
 
 
